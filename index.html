@@ -3,165 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>convertidor de moneda de tomas el mejor de todos</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f6f9;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            box-sizing: border-box;
-            padding: 20px;
-        }
-        .converter-card {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-            width: 100%;
-            max-width: 420px;
-            box-sizing: border-box;
-            margin-bottom: 20px;
-        }
-        h2 {
-            margin-top: 0;
-            color: #2c3e50;
-            text-align: center;
-            font-size: 1.5rem;
-            margin-bottom: 24px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #4a5568;
-        }
-        input[type="number"] {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            font-size: 1rem;
-            box-sizing: border-box;
-            transition: border-color 0.2s;
-        }
-        input[type="number"]:focus {
-            outline: none;
-            border-color: #3182ce;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #3182ce;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        button:hover {
-            background-color: #2b6cb0;
-        }
-        .results-box {
-            margin-top: 24px;
-            padding-top: 20px;
-            border-top: 1px solid #e2e8f0;
-        }
-        .result-item {
-            margin-bottom: 12px;
-            font-size: 1.05rem;
-        }
-        .result-item:last-child {
-            margin-bottom: 0;
-        }
-        .result-label {
-            font-weight: bold;
-            color: #4a5568;
-        }
-        .result-value {
-            color: #2b6cb0;
-            font-weight: 600;
-        }
-        
-        /* Sección de Configuración */
-        .config-toggle {
-            background: none;
-            border: none;
-            color: #4a5568;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 15px;
-            text-decoration: underline;
-            text-align: center;
-            width: 100%;
-        }
-        .config-toggle:hover {
-            color: #2d3748;
-        }
-        .config-section {
-            display: none;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 2px dashed #e2e8f0;
-        }
-        .config-title {
-            font-size: 1.1rem;
-            color: #4a5568;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-        .btn-save {
-            background-color: #48bb78;
-        }
-        .btn-save:hover {
-            background-color: #38a169;
-        }
-        
-        footer {
-            font-size: 0.95rem;
-            color: #718096;
-            text-align: center;
-            font-weight: 500;
-            background-color: #edf2f7;
-            padding: 12px 24px;
-            border-radius: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            max-width: 90%;
-            margin-top: 10px;
-        }
-    </style>
+    <title>Convertidor de Moneda - Tomas</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
     <div class="converter-card">
-        <h2>convertidor de moneda de tomas el mejor de todos</h2>
-        
-        <div class="form-group">
-            <label for="clpInput">Precio chileno</label>
-            <input type="number" id="clpInput" placeholder="Ingrese monto en CLP" min="0" step="any">
+        <div class="card-header">
+            <h2>Convertidor de Moneda de Tomas</h2>
+            <button id="themeToggle" class="theme-toggle-btn" onclick="toggleTheme()" title="Cambiar tema">🌙</button>
         </div>
         
-        <button onclick="convertirMoneda()">Convertir</button>
+        <div class="form-group">
+            <label for="inputExtranjera">Precio Moneda Extranjera (CLP)</label>
+            <input type="number" id="inputExtranjera" placeholder="Ingrese monto" min="0" step="any">
+        </div>
+        
+        <button class="btn-convert" onclick="convertirMoneda()">Convertir</button>
         
         <div class="results-box" id="resultsBox" style="display: none;">
             <div class="result-item">
                 <span class="result-label">Precio en dólares:</span>
-                <span class="result-value" id="usdResult">0.00</span>
+                <span class="result-value" id="usdResult">$ 0.00 USD</span>
             </div>
             <div class="result-item">
-                <span class="result-label">Precio en pesos:</span>
-                <span class="result-value" id="arsResult">0.00</span>
+                <span class="result-label">Precio Local (ARS):</span>
+                <span class="result-value" id="localResult">$ 0.00</span>
             </div>
         </div>
 
@@ -172,100 +39,21 @@
         <div class="config-section" id="configSection">
             <div class="config-title">Configuración de Tasas (1 USD)</div>
             <div class="form-group">
-                <label for="usdClpInput">Valor Dólar a Peso Chileno (CLP)</label>
-                <input type="number" id="usdClpInput" step="any">
+                <label for="inputUsdExtranjera">Valor Dólar a Moneda Extranjera</label>
+                <input type="number" id="inputUsdExtranjera" step="any">
             </div>
             <div class="form-group">
-                <label for="usdArsInput">Valor Dólar a Peso Argentino (ARS)</label>
-                <input type="number" id="usdArsInput" step="any">
+                <label for="inputUsdLocal">Valor Dólar a Moneda Local</label>
+                <input type="number" id="inputUsdLocal" step="any">
             </div>
             <button class="btn-save" onclick="guardarConfiguracion()">Guardar Tasas</button>
         </div>
     </div>
 
     <footer>
-        esta familia es mil veces mejor gracias a tomas
+        Esta familia es mil veces mejor gracias a Tomas
     </footer>
 
-    <script>
-        // Valores por defecto iniciales
-        const DEFAULT_USD_CLP = 930.90;
-        const DEFAULT_USD_ARS = 1500.00;
-
-        // Al cargar la página, inicializar localStorage si es la primera vez, y cargar inputs
-        window.onload = function() {
-            if (!localStorage.getItem('usd_clp')) {
-                localStorage.setItem('usd_clp', DEFAULT_USD_CLP);
-            }
-            if (!localStorage.getItem('usd_ars')) {
-                localStorage.setItem('usd_ars', DEFAULT_USD_ARS);
-            }
-
-            // Cargar los valores de localStorage en los campos de configuración
-            document.getElementById('usdClpInput').value = localStorage.getItem('usd_clp');
-            document.getElementById('usdArsInput').value = localStorage.getItem('usd_ars');
-        };
-
-        function toggleConfig() {
-            const configSection = document.getElementById('configSection');
-            if (configSection.style.display === 'block') {
-                configSection.style.display = 'none';
-            } else {
-                configSection.style.display = 'block';
-            }
-        }
-
-        function guardarConfiguracion() {
-            const clpTasa = parseFloat(document.getElementById('usdClpInput').value);
-            const arsTasa = parseFloat(document.getElementById('usdArsInput').value);
-
-            if (isNaN(clpTasa) || clpTasa <= 0 || isNaN(arsTasa) || arsTasa <= 0) {
-                alert('Por favor, ingrese valores válidos mayores a 0.');
-                return;
-            }
-
-            localStorage.setItem('usd_clp', clpTasa);
-            localStorage.setItem('usd_ars', arsTasa);
-
-            alert('¡Cotizaciones actualizadas con éxito!');
-            toggleConfig();
-            
-            // Si ya había un cálculo hecho, recalculamos automáticamente con las nuevas tasas
-            if (document.getElementById('clpInput').value) {
-                convertirMoneda();
-            }
-        }
-
-        function convertirMoneda() {
-            const inputVal = parseFloat(document.getElementById('clpInput').value);
-            
-            if (isNaN(inputVal) || inputVal < 0) {
-                alert('Por favor, ingrese un número válido.');
-                return;
-            }
-
-            // Obtener las tasas guardadas en localStorage o usar las por defecto si algo falla
-            const tasaUsdClp = parseFloat(localStorage.getItem('usd_clp')) || DEFAULT_USD_CLP;
-            const tasaUsdArs = parseFloat(localStorage.getItem('usd_ars')) || DEFAULT_USD_ARS;
-
-            // 1. Calcular precio en dólares dividiendo el precio chileno por su cotización actual
-            const precioDolares = inputVal / tasaUsdClp;
-            
-            // 2. Calcular precio en pesos argentinos multiplicando el resultado en dólares por su cotización actual
-            const precioPesos = precioDolares * tasaUsdArs;
-
-            // Formatear resultados para la interfaz
-            const usdFormateado = precioDolares.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 4 });
-            const pesosFormateado = precioPesos.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-            // Mostrar resultados
-            document.getElementById('usdResult').innerText = '$ ' + usdFormateado + ' USD';
-            document.getElementById('arsResult').innerText = '$ ' + pesosFormateado + ' ARS';
-            
-            // Hacer visible la caja de resultados
-            document.getElementById('resultsBox').style.display = 'block';
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
-
